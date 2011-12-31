@@ -1,12 +1,7 @@
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.Scanner;
 
 /*
  * To change this template, choose Tools | Templates
@@ -19,7 +14,16 @@ import java.util.ListIterator;
 public class Operation {
 
     int alternatives;
+    int OperationID;
     List<PossibleSolutions> possol;
+
+    public int getOperationID() {
+        return OperationID;
+    }
+
+    public void setOperationID(int OperationID) {
+        this.OperationID = OperationID;
+    }
 
     
     Operation()
@@ -27,26 +31,24 @@ public class Operation {
             alternatives = 0 ;
             possol = null;
         }
-    void getOperationDetails(String [] array) {
-        
-           
 
-            alternatives = Integer.parseInt(array[0]);
-            setAlternatives(array,alternatives);
-            
-        
-            
-    
+    public int getAlternatives() {
+        return alternatives;
     }
 
-    private void setAlternatives(String[] array, int alternatives) {
+    public void setAlternatives(int alternatives) {
+        this.alternatives = alternatives;
+    }
+    
+
+    public void setPossSol(Scanner s) {
         possol = new ArrayList<PossibleSolutions>();
             
         for(int i=1;i<=alternatives*2;i=i+2)
         {
            
            
-            boolean add = possol.add(new PossibleSolutions(Integer.parseInt(array[i]), Integer.parseInt(array[i + 1])));
+            boolean add = possol.add(new PossibleSolutions(s.nextInt(),s.nextInt()));
 
         }
     }
