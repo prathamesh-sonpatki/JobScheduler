@@ -1,8 +1,8 @@
 package logic;
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
  */
 
 /**
@@ -10,19 +10,19 @@ package logic;
  * @author prathamesh
  */
 public class AlternativeSolutions {
-        int MachineID;
-        int time;
+    int MachineID;
+    int time;
 
-        /**
-         *
-         * @param machine
-         * @param t
-         */
-        public AlternativeSolutions(int machine,int t) {
+    /**
+     *
+     * @param machine
+     * @param t
+     */
+    public AlternativeSolutions(int machine, int t) {
         MachineID = machine;
         time      = t;
     }
-
-
-
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

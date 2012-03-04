@@ -6,27 +6,17 @@ import java.util.List;
 
 /*
  * Machine Class ; Gives Information about Available Machines
- *
- */
-/**
- *
- * @author chaitanya
- */
+*/
 public class Machine {
     private int MachineID;//set
     int TotalPossibleOperstions;//set
     int TransportTime [] ;//set
-    List<Schedule> Sch;
-
-    
-
-    Machine(int ID)
+    List<Schedule> Sch; //set
+  Machine(int ID)
         {
             this.MachineID = ID;
-            this.TotalPossibleOperstions = 0;
-            
-           
-        }
+            this.TotalPossibleOperstions = 0;  
+          }
 
     /**
      *
@@ -47,9 +37,7 @@ public class Machine {
     void clearTotalOperation()
     {
         this.TotalPossibleOperstions = 0;
-        this.Sch = null;
-        
-      
+        this.Sch = null; 
     }
 
     /**
@@ -124,10 +112,7 @@ public class Machine {
         this.MachineID = MachineID;
     }
 
-    //Add element to Sch
-    void addSchedule(GeneSolution operation,int jobID , int operationID)
-    {
-    }
+    
     /**
      *
      */

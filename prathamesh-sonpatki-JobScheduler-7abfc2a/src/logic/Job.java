@@ -1,10 +1,11 @@
 package logic;
 
+//~--- JDK imports ------------------------------------------------------------
 
 import java.util.Scanner;
 
 /*
- * Job Class :: Describe details of each job
+* Job Class :: Describe details of each job
  */
 
 /**
@@ -12,18 +13,19 @@ import java.util.Scanner;
  * @author prathamesh
  */
 public class Job {
-    //DataMembers of Job Class
-    int TotalOperations;
     int JobID;
+
+    // DataMembers of Job Class
+    int       TotalOperations;
     Operation operations[];
-        
-    //Constructor
-    Job()
-        {
-            TotalOperations = 0;
-            operations=null;
-        }
-    //Getters and Setters
+
+    // Constructor
+    Job() {
+        TotalOperations = 0;
+        operations      = null;
+    }
+
+    // Getters and Setters
 
     /**
      *
@@ -40,6 +42,7 @@ public class Job {
     public void setJobID(int JobID) {
         this.JobID = JobID;
     }
+
     /**
      *
      * @return
@@ -48,10 +51,8 @@ public class Job {
         return TotalOperations;
     }
 
-    
-
     /**
-     * 
+     *
      * @return
      */
     public Operation[] getOperations() {
@@ -66,44 +67,44 @@ public class Job {
         this.TotalOperations = TotalOperations;
     }
 
+    // Take Details of each operation
 
-    //Take Details of each operation
     /**
      *
      * @param s
      * @return
      */
-    public Scanner GetOperation(Scanner s)
-    {
-     this.operations = new Operation[this.getTotalOperations()];
-          for(int j=0;j<this.getTotalOperations();j++)
-                {
-                    operations[j] = new Operation();
-                    operations[j].setOperationID(j);
-                    //Set Number of Alternatives for Each Operation
-                    operations[j].setAlternatives(s.nextInt());
+    public Scanner GetOperation(Scanner s) {
+        this.operations = new Operation[this.getTotalOperations()];
 
-                    //Set Possible Solutions for each Operation
-                    operations[j].setAlternativeSolution(s);
-                    
+        for (int j = 0; j < this.getTotalOperations(); j++) {
+            operations[j] = new Operation();
+            operations[j].setOperationID(j);
 
-                }
-     return s;
+            // Set Number of Alternatives for Each Operation
+            operations[j].setAlternatives(s.nextInt());
 
+            // Set Possible Solutions for each Operation
+            operations[j].setAlternativeSolution(s);
+        }
+
+        return s;
     }
-    
-      //Print Job Details
+
+    // Print Job Details
+
     /**
      *
      */
-    public void printJobDetails()
-        {
-            System.out.println("Job "+JobID+" has "+TotalOperations+" Operations as follows:");
-            for(int i=0;i<TotalOperations;i++)
-                {
-                    System.out.println("Operation "+i+" has Alternative Solutions as Follows:");
-                    operations[i].printOperationDetails();                 
-                     
-                }
+    public void printJobDetails() {
+        System.out.println("Job " + JobID + " has " + TotalOperations + " Operations as follows:");
+
+        for (int i = 0; i < TotalOperations; i++) {
+            System.out.println("Operation " + i + " has Alternative Solutions as Follows:");
+            operations[i].printOperationDetails();
         }
+    }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

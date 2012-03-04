@@ -1,25 +1,26 @@
 package logic;
 
 /*
- * Schedule Class ; This class is used to represent overall Schedule of all jobs
+* Schedule Class ; This class is used to represent overall Schedule of all jobs
  */
+
 /**
  *
  * @author chaitanya
  */
 public class Schedule {
-
     int JobID;
     int OperationID;
-    int startTime;
     int endTime;
-    Schedule(int jID, int oID , int sTime , int eTime)
-    {
-     JobID = jID;
-     OperationID = oID;
-     startTime = sTime;
-     endTime = eTime;
+    int startTime;
+
+    Schedule(int jID, int oID, int sTime, int eTime) {
+        JobID       = jID;
+        OperationID = oID;
+        startTime   = sTime;
+        endTime     = eTime;
     }
+
     /**
      *
      * @return
@@ -40,7 +41,6 @@ public class Schedule {
      *
      * @return
      */
-   
 
     /**
      *
@@ -74,8 +74,11 @@ public class Schedule {
         this.startTime = startTime;
     }
 
-    public void print()
-    {
-        System.out.println("Job "+JobID+" Operation "+OperationID+" Start Time: "+startTime+" End Time: "+endTime);
+    public void print() {
+        System.out.println("Job " + JobID + " Operation " + OperationID + " Start Time: " + startTime + " End Time: "
+                           + endTime);
     }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

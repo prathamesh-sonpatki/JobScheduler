@@ -1,14 +1,11 @@
 package logic;
 
-
-
 /**
  * @author chaitanya
  */
 public class GeneSolution {
     int MachineID;
     int time;
-   
 
     /**
      *
@@ -16,14 +13,10 @@ public class GeneSolution {
      * @param time
      */
     public GeneSolution(int MachineID, int time) {
-        
         this.MachineID = MachineID;
-        this.time = time;
+        this.time      = time;
     }
-    
-   
 
-   
     /**
      *
      * @param MachineID
@@ -39,8 +32,6 @@ public class GeneSolution {
     public void setTime(int time) {
         this.time = time;
     }
-
-
 
     /**
      *
@@ -58,3 +49,6 @@ public class GeneSolution {
         return time;
     }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com
