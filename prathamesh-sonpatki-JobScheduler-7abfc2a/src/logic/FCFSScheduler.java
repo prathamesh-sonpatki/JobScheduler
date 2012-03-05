@@ -2,7 +2,7 @@ package logic;
 
 //~--- JDK imports ------------------------------------------------------------
 
-import com.sun.org.apache.xml.internal.serializer.utils.SystemIDResolver;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class FCFSScheduler extends MachineController implements Scheduler {
     List <Integer> machineIDs;
     Schedule minOperation;
     int minOpMachineID;
+    static int currentIndex;
 
     void generateSchedule(MachineController mc, Chromosome chromosome) {
 
@@ -42,23 +43,101 @@ public class FCFSScheduler extends MachineController implements Scheduler {
         }
 
             //find an operation from scheduleset such that it's finish time is minimum
-               this.minOperation =  findMinOperation(this.scheduleSet);
+            
             // machine id where  minOperation is going to be executed is stored in minOpMachineID
-            //while(this.scheduleSet.isEmpty())
-            //{
+             
+            while(scheduleSet.isEmpty() != true)
+            {
+             
+               
+               this.minOperation =  findMinOperation(this.scheduleSet);
                // isNextOperation exists for minOperation
             
-               if(chromosome.getGenes()[minOperation.JobID].geneLength > minOperation.OperationID)
+               if(chromosome.getGenes()[minOperation.JobID].geneLength > minOperation.OperationID +1)
                {
+                   
                    //next operation exists
+                   //Find previous machine where Oi,j was executed
+                   int prevMachineID = chromosome.getGenes()[minOperation.JobID].getGeneSolution()[minOperation.OperationID].MachineID;
+                   //Find next job id , machine id and operation id
+                   int nextJobID = minOperation.JobID;
+                   int nextOpID = minOperation.OperationID + 1;
+
+                   int nextMachineID = chromosome.getGenes()[minOperation.JobID].getGeneSolution()[nextOpID].MachineID;
+                   int nextProcessingTime = chromosome.getGenes()[minOperation.JobID].getGeneSolution()[nextOpID].time;
+                   //get Machine where next operation will happen
+                   int schLength = 1;
+                   int  nextStartTime = minOperation.endTime;
+                   if(mc.getMachine(nextMachineID).getSch()!=null)
+                   {
+                    schLength = mc.getMachine(nextMachineID).getSch().size();
+                   
+                   }
+                  
+                   int nextFinishTime = nextStartTime + nextProcessingTime;
+                  // System.out.println(nextJobID+" "+nextOpID+" "+nextMachineID+" "+nextStartTime+" "+nextFinishTime);
+                   //create object of schedule class for above information
+                   if(mc.getMachine(nextMachineID).getSch() == null)
+                         mc.getMachine(nextMachineID).createSch();
+                         mc.getMachine(nextMachineID).getSch().add(new Schedule(nextJobID,nextOpID,nextStartTime,nextFinishTime));
+                   //System.out.println(schLength+"  " + mc.getMachine(nextMachineID).getSch().size());
+                   //check if nextMachineID has one or more operations appended before
+                  
+                   if(mc.getMachine(nextMachineID).getSch().size() >0 )
+                   {
+                        if(minOperation.endTime > nextFinishTime)
+                        {
+                            nextStartTime += mc.getMachine(prevMachineID).TransportTime[nextMachineID];
+                            nextFinishTime = nextStartTime + nextProcessingTime;
+                        }
+                        else if(minOperation.endTime + mc.getMachine(prevMachineID).TransportTime[nextMachineID] > nextFinishTime )
+                        {
+                             nextStartTime += mc.getMachine(prevMachineID).TransportTime[nextMachineID];
+                             nextFinishTime = nextStartTime + nextProcessingTime;
+                        }
+                        else
+                        {
+                            
+                        }
+                   }
+                   else
+                   {
+                            nextStartTime += mc.getMachine(prevMachineID).TransportTime[nextMachineID];
+                            nextFinishTime = nextStartTime + nextProcessingTime;
+                   }
+                   //update the current schedue with new values of starttime and finishtime
+                    mc.getMachine(nextMachineID).getSch().get(mc.getMachine(nextMachineID).getSch().size() - 1).setEndTime(nextFinishTime);
+                    mc.getMachine(nextMachineID).getSch().get(mc.getMachine(nextMachineID).getSch().size() - 1).setStartTime(nextStartTime);
+                    //update scheduleset    with Oi.j+1
+                     this.scheduleSet.get(currentIndex).setJobID(nextJobID);
+                     this.scheduleSet.get(currentIndex).setOperationID(nextOpID);
+                     this.scheduleSet.get(currentIndex).setStartTime(nextStartTime);
+                     this.scheduleSet.get(currentIndex).setEndTime(nextFinishTime);
+
                }
+
                else
                {
                    //next operation doesnt exists
                    //delete current operation from scheduleset
-                   this.scheduleSet.remove(minOperation);
+                   chromosome.getGenes()[minOperation.JobID].MakeSpan = minOperation.endTime;
+                
+                  this.scheduleSet.remove(currentIndex);
+                  
+                        
+
                }
-        //}
+              
+        }
+               
+               
+               for(int i=0;i<6;i++)
+               {
+                  System.out.println("Job "+i+"  Total Makespan = "+chromosome.getGenes()[i].MakeSpan);
+                  System.out.println("------------------------");
+               }
+         
+           
     }
 
 
@@ -112,6 +191,7 @@ public class FCFSScheduler extends MachineController implements Scheduler {
                 }
             }
         }
+        currentIndex = index;
         return scheduleSet.get(index);
     }
 }

@@ -17,6 +17,7 @@ public class Chromosome {
     int    ChromosomeLength;
     int    GeneCount;
     double fitnessValue;
+    int totalMakeSpan;
     Gene   genes[];
 
     /**
@@ -29,6 +30,10 @@ public class Chromosome {
         ChromeMachine    = "";
         ChromeTime       = "";
     }
+
+  
+
+
 
     /*
      *  public int getFitnessValue()
