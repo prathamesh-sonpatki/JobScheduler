@@ -121,8 +121,7 @@ public class FCFSScheduler extends MachineController implements Scheduler {
                    //next operation doesnt exists
                    //delete current operation from scheduleset
                    chromosome.getGenes()[minOperation.JobID].MakeSpan = minOperation.endTime;
-                
-                  this.scheduleSet.remove(currentIndex);
+                   this.scheduleSet.remove(currentIndex);
                   
                         
 

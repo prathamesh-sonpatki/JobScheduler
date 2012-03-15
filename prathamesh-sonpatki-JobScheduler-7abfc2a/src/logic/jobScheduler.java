@@ -103,12 +103,13 @@ public class jobScheduler {
             }
 
             // Scheduling Code Goes Here !! :D
-             System.out.println("Chromosome "+ (i+1) );
+            System.out.println("Chromosome "+ (i+1) );
             fcfs.generateSchedule(machineController, populationController.getPopulation().getChromosomes()[i]);
 
             for (k = 0; k < machineController.getTotalMachines(); k++) {
-            //    fcfs.print(machineController.getMachines()[k]);
+           //    fcfs.print(machineController.getMachines()[k]);
             }
+
             
             
             for (k = 0; k < machineController.getTotalMachines(); k++) {
