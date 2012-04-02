@@ -4,25 +4,25 @@ package logic;
  * @author chaitanya
  */
 public class GeneSolution {
-    int MachineID;
+    int machineID;
     int time;
 
     /**
      *
-     * @param MachineID
+     * @param machineID
      * @param time
      */
     public GeneSolution(int MachineID, int time) {
-        this.MachineID = MachineID;
+        this.machineID = MachineID;
         this.time      = time;
     }
 
     /**
      *
-     * @param MachineID
+     * @param machineID
      */
     public void setMachineID(int MachineID) {
-        this.MachineID = MachineID;
+        this.machineID = MachineID;
     }
 
     /**
@@ -38,7 +38,7 @@ public class GeneSolution {
      * @return
      */
     public int getMachineID() {
-        return MachineID;
+        return machineID;
     }
 
     /**

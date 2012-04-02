@@ -1,156 +1,153 @@
 package logic;
 
-
 import java.util.ArrayList;
-import java.util.List;
+
 
 /*
- * Machine Class ; Gives Information about Available Machines
-*/
+ * Gives Information about Available Machines
+ */
 public class Machine {
-    private int MachineID;//set
-    int TotalPossibleOperstions;//set
-    int TransportTime [] ;//set
-    List<Schedule> Sch; //set
-  Machine(int ID)
-        {
-            this.MachineID = ID;
-            this.TotalPossibleOperstions = 0;  
-          }
+
+    private int machineID;
+    int totalOperationCount;
+    int transportTime[];
+    ArrayList<Schedule> sch; //List of operations allocated on this Machine
 
     /**
-     *
-     * @param Sch
+     * 
+     * @param ID set ID for the machine
      */
-    public void setSch(List<Schedule> Sch) {
-        this.Sch = Sch;
+    Machine(int ID) {
+        this.machineID = ID;
+        this.totalOperationCount = 0;
     }
 
     /**
      *
-     * @param TotalPossibleOperstions
+     * @param sch
+     */
+    public void setSch(ArrayList<Schedule> Sch) {
+        this.sch = Sch;
+    }
+
+    /**
+     *
+     * @param totalOperationCount
      */
     public void setTotalPossibleOperstions(int TotalPossibleOperstions) {
-        this.TotalPossibleOperstions = TotalPossibleOperstions;
+        this.totalOperationCount = TotalPossibleOperstions;
     }
-    
-    void clearTotalOperation()
-    {
-        this.TotalPossibleOperstions = 0;
-        this.Sch = null; 
+
+    void clearTotalOperation() {
+        this.totalOperationCount = 0;
+        this.sch = null;
     }
 
     /**
      *
      * @return
      */
-    public List<Schedule> getSch() {
-        return Sch;
+    public ArrayList<Schedule> getSch() {
+        return sch;
     }
-    //Allocating memory to Sch
+    //Allocating memory to sch
+
     /**
      *
      */
-    public void createSch()
-    {
-        this.Sch = new <Schedule> ArrayList(this.getTotalPossibleOperstions());
+    public void createSch() {
+        this.sch = new ArrayList<Schedule>(this.getTotalOperationCount());
     }
 
-    public void insertOperationToSch(Machine m , Chromosome c , int jobID)
-    {  int flag = 0;
-       int i;
-       //INSERT FIRST OPERATION IN SCH
-       if(this.getSch().isEmpty() )
-       {
-         
-           this.getSch().add(new Schedule(jobID,0,0,c.getGenes()[jobID].getGeneSolution()[0].getTime()));
+    public void insertOperationToSch(Chromosome c, int jobID) {
+        int flag = 0;
+        int i;
+        //INSERT FIRST OPERATION IN SCH
+        if (this.getSch().isEmpty()) {
+            int finishTime = c.getGenes()[jobID].getGeneSolution()[0].getTime();
+            Schedule schNewItem = new Schedule(jobID, 0, 0, finishTime);
+            
+            this.getSch().add(schNewItem);
 
-       }
-       else
-       {
-          
-         for( i = 0; i< this.getSch().size();i++)
-         {
-             if(c.getGenes()[jobID].getGeneSolution()[0].getTime() < c.getGenes()[this.Sch.get(i).getJobID()].getGeneSolution()[0].getTime())
-             {
-                 if(i!=0)
-                 {
-                     this.getSch().add(i, new Schedule(jobID, 0, this.getSch().get(i-1).endTime,this.getSch().get(i-1).endTime+c.getGenes()[jobID].getGeneSolution()[0].getTime() ));
+        } else {
 
-                 }
-                else
-                 {
-                   this.getSch().add(i, new Schedule(jobID, 0, 0,c.getGenes()[i].getGeneSolution()[0].getTime() ));
-                 }
-               propogateSchedules(i+1);
-               flag = 1;
-               break;
-             }
-            else
-             {
-                flag = 0;
-             }
-          }
-         if(flag == 0)
-             this.getSch().add(new Schedule(jobID,0,this.getSch().get(i-1).getEndTime(),this.getSch().get(i-1).getEndTime()+c.getGenes()[jobID].getGeneSolution()[0].getTime()));
-       }
+            int currentTime = c.getGenes()[jobID].getGeneSolution()[0].getTime();
+            for (i = 0; i < this.getSch().size(); i++) {
+                if (currentTime < (this.getSch().get(i).getEndTime() - this.getSch().get(i).getStartTime())) {
+                    if (i != 0) {
+                        int startTime = this.getSch().get(i - 1).getEndTime();
+                        this.getSch().add(jobID, new Schedule(jobID, 0, startTime, startTime + currentTime));
+
+                    } else {
+                        
+                        this.getSch().add(i, new Schedule(jobID, 0, 0, currentTime));
+                       
+                     }// end of if
+                    this.propogateSchedules(i + 1, currentTime);
+                    // System.out.println(i+"Start Time "+this.getSch().get(i).startTime + "   end " + this.getSch().get(i).endTime + " on machine "  + this.getMachineID());
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                int startTime = this.getSch().get(i - 1).getEndTime();
+                this.getSch().add(new Schedule(jobID, 0, startTime, startTime + currentTime));
+            }
+        }
 
     }
-    void propogateSchedules(int index)
-    {
-        for(int i = index;i<this.getSch().size();i++)
-        {
-             this.getSch().get(i).setStartTime(this.getSch().get(i-1).getEndTime());
-             this.getSch().get(i).setEndTime(this.getSch().get(i-1).getEndTime()+this.getSch().get(i).getStartTime());
+
+    void propogateSchedules(int index, int currentTime) {
+        for (int i = index; i < this.getSch().size(); i++) {
+            this.getSch().get(i).setStartTime(this.getSch().get(i).getStartTime() + currentTime);
+            this.getSch().get(i).setEndTime(this.getSch().get(i).getEndTime() + currentTime);
         }
     }
+
     /**
      *
-     * @param MachineID
+     * @param machineID
      */
     public void setMachineID(int MachineID) {
-        this.MachineID = MachineID;
+        this.machineID = MachineID;
     }
 
-    
     /**
      *
      */
     public void setTotalPossibleOperstions() {
-        this.TotalPossibleOperstions ++;
+        this.totalOperationCount++;
     }
 
     /**
      *
      */
-    public void incTotalPossibleOperstions() {
-        this.TotalPossibleOperstions ++;
+    public void increaseTotalPossibleOperstionCount() {
+        this.totalOperationCount++;
     }
 
     /**
      *
-     * @param TransportTime
+     * @param transportTime
      */
     public void setTransportTime(int[] TransportTime) {
-        this.TransportTime = TransportTime;
+        this.transportTime = TransportTime;
     }
-
-    
 
     /**
      *
      * @return
      */
     public int getMachineID() {
-        return MachineID;
+        return machineID;
     }
 
     /**
      *
      * @return
      */
-    public int getTotalPossibleOperstions() {
-        return TotalPossibleOperstions;
+    public int getTotalOperationCount() {
+        return totalOperationCount;
     }
 
     /**
@@ -158,14 +155,10 @@ public class Machine {
      * @return
      */
     public int[] getTransportTime() {
-        return TransportTime;
+        return transportTime;
     }
     //Compare two schedules w.r.t to processing time
-    void compareSch(Chromosome c , int jobID)
-    {
-       
 
-
-
+    void compareSch(Chromosome c, int jobID) {
     }
 }

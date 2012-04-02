@@ -1,12 +1,7 @@
 package logic;
 
-/*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
- */
-
 /**
- *
+ * Save the machine and corresponding time for alternative solution
  * @author prathamesh
  */
 public class AlternativeSolutions {
@@ -14,7 +9,7 @@ public class AlternativeSolutions {
     int time;
 
     /**
-     *
+     * contains machine and time required to perform operation
      * @param machine
      * @param t
      */

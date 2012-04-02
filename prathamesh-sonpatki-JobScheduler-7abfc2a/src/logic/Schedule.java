@@ -9,14 +9,14 @@ package logic;
  * @author chaitanya
  */
 public class Schedule {
-    int JobID;
-    int OperationID;
+    int jobID;
+    int operationID;
     int endTime;
     int startTime;
 
     Schedule(int jID, int oID, int sTime, int eTime) {
-        JobID       = jID;
-        OperationID = oID;
+        jobID       = jID;
+        operationID = oID;
         startTime   = sTime;
         endTime     = eTime;
     }
@@ -26,7 +26,7 @@ public class Schedule {
      * @return
      */
     public int getJobID() {
-        return JobID;
+        return jobID;
     }
 
     /**
@@ -34,7 +34,7 @@ public class Schedule {
      * @return
      */
     public int getOperationID() {
-        return OperationID;
+        return operationID;
     }
 
     /**
@@ -44,18 +44,18 @@ public class Schedule {
 
     /**
      *
-     * @param JobID
+     * @param jobID
      */
     public void setJobID(int JobID) {
-        this.JobID = JobID;
+        this.jobID = JobID;
     }
 
     /**
      *
-     * @param OperationID
+     * @param operationID
      */
     public void setOperationID(int OperationID) {
-        this.OperationID = OperationID;
+        this.operationID = OperationID;
     }
 
     public int getEndTime() {
@@ -75,7 +75,7 @@ public class Schedule {
     }
 
     public void print() {
-        System.out.println("Job " + JobID + " Operation " + OperationID + " Start Time: " + startTime + " End Time: "
+        System.out.println("Job " + jobID + " Operation " + operationID + " Start Time: " + startTime + " End Time: "
                            + endTime);
     }
 }

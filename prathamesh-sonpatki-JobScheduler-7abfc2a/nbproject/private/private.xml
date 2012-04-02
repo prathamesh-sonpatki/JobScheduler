@@ -2,4 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <data xmlns="http://www.netbeans.org/ns/profiler/1" version="0.9.1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/home/chaitanya/NetBeansProjects/vit2/prathamesh-sonpatki-JobScheduler-7abfc2a/src/logic/jobScheduler.java</file>
+        <file>file:/home/chaitanya/NetBeansProjects/vit2/prathamesh-sonpatki-JobScheduler-7abfc2a/src/logic/Machine.java</file>
+        <file>file:/home/chaitanya/NetBeansProjects/vit2/prathamesh-sonpatki-JobScheduler-7abfc2a/src/logic/GeneSolution.java</file>
+        <file>file:/home/chaitanya/NetBeansProjects/vit2/prathamesh-sonpatki-JobScheduler-7abfc2a/src/logic/Chromosome.java</file>
+        <file>file:/home/chaitanya/NetBeansProjects/vit2/prathamesh-sonpatki-JobScheduler-7abfc2a/src/logic/Schedule.java</file>
+        <file>file:/home/chaitanya/NetBeansProjects/vit2/prathamesh-sonpatki-JobScheduler-7abfc2a/src/logic/FCFSScheduler.java</file>
+    </open-files>
 </project-private>

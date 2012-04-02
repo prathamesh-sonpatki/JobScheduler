@@ -1,59 +1,54 @@
 package logic;
 
 //~--- JDK imports ------------------------------------------------------------
-
 import java.util.Scanner;
 
-/*
-* Job Class :: Describe details of each job
- */
-
 /**
- *
+ * Stores the details of each job which contains multiple operations
+ * along with the available machines and corresponding time
  * @author prathamesh
  */
 public class Job {
-    int JobID;
 
-    // DataMembers of Job Class
-    int       TotalOperations;
+    int jobID;
+    int totalOperationCount;
+
     Operation operations[];
 
-    // Constructor
+    /**
+     * set datamember values
+     */
     Job() {
-        TotalOperations = 0;
-        operations      = null;
+        totalOperationCount = 0;
+        operations = null;
     }
 
-    // Getters and Setters
-
     /**
-     *
-     * @return
+     * @return job ID of the Job object
      */
     public int getJobID() {
-        return JobID;
+        return jobID;
     }
 
     /**
-     *
-     * @param JobID
+     * set jobID of the Job object
+     * @param jobID
      */
     public void setJobID(int JobID) {
-        this.JobID = JobID;
+        this.jobID = JobID;
     }
 
     /**
      *
-     * @return
+     * @return totaloperations of Job object
      */
-    public int getTotalOperations() {
-        return TotalOperations;
+    public int getTotalOperationCount() {
+        return totalOperationCount;
     }
 
     /**
      *
-     * @return
+     * @return the array of operation present in job
      */
     public Operation[] getOperations() {
         return operations;
@@ -61,50 +56,54 @@ public class Job {
 
     /**
      *
-     * @param TotalOperations
+     * @param set totalOperationCount of Job object
      */
-    public void setTotalOperations(int TotalOperations) {
-        this.TotalOperations = TotalOperations;
+    public void setTotalOperationCount(int TotalOperations) {
+        this.totalOperationCount = TotalOperations;
     }
 
-    // Take Details of each operation
-
     /**
-     *
-     * @param s
-     * @return
+     * creates the Operation objects for current job
+     * @param s for accessing the data from file "input.txt"
+     * @return scanner object s
      */
-    public Scanner GetOperation(Scanner s) {
-        this.operations = new Operation[this.getTotalOperations()];
+    public Scanner setOperations(Scanner s) {
+        this.operations = new Operation[this.getTotalOperationCount()];
 
-        for (int j = 0; j < this.getTotalOperations(); j++) {
+        for (int j = 0; j < this.getTotalOperationCount(); j++){
             operations[j] = new Operation();
+
+            /*
+             * set the operation ID of the operation j
+             */
             operations[j].setOperationID(j);
 
-            // Set Number of Alternatives for Each Operation
-            operations[j].setAlternatives(s.nextInt());
+            /**
+             *  Set Number of Alternatives for Each Operation
+             */
+            operations[j].setAlternativeCount(s.nextInt());
 
-            // Set Possible Solutions for each Operation
+            /**
+             *  Set Possible Solutions for each Operation
+             */
             operations[j].setAlternativeSolution(s);
         }
 
         return s;
     }
 
-    // Print Job Details
-
     /**
-     *
+     * print the job datails
      */
     public void printJobDetails() {
-        System.out.println("Job " + JobID + " has " + TotalOperations + " Operations as follows:");
+        System.out.println("Job " + jobID + " has " + totalOperationCount + " Operations as follows:");
 
-        for (int i = 0; i < TotalOperations; i++) {
+        for (int i = 0; i < totalOperationCount; i++) {
             System.out.println("Operation " + i + " has Alternative Solutions as Follows:");
             operations[i].printOperationDetails();
         }
     }
 }
 
-
 //~ Formatted by Jindent --- http://www.jindent.com
+

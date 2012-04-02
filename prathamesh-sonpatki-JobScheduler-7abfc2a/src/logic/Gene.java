@@ -1,15 +1,12 @@
 package logic;
 
-//~--- JDK imports ------------------------------------------------------------
-
 import java.util.List;
 import java.util.Random;
 
 /*
-* Gene Class -> It represents a Job.
-* A Gene will have different GeneSolutions which represent an operation of a job.
+ * Gene Class -> It represents a Job.
+ * A Gene will have different GeneSolutions which represent an operation of a jobs.
  */
-
 /**
  *
  * @author chaitanya
@@ -17,21 +14,35 @@ import java.util.Random;
 public class Gene {
 
     // used for Converting string to chromosome **Don't Touch**
-    static int k;
+    private int optimalMakespan = 30;
+    private int threshold = 5;
     static int l;
-    int        MakeSpan;
+    int makeSpan;
 
+    static int k;
+
+    public int getOptimalMakespan() {
+        return optimalMakespan;
+    }
+
+    public int getThreshold() {
+        return threshold;
+    }
+
+    public int getMakeSpan() {
+        return makeSpan;
+    }
     // Rest of the Data Members
-    int            geneLength;
+    int geneLength;
     GeneSolution[] geneSolution;
 
     /**
-     *
+     * Initializing the Gene object
      */
     public Gene() {
-        this.geneLength   = 0;
+        this.geneLength = 0;
         this.geneSolution = null;
-        this.MakeSpan     = 0;
+        this.makeSpan = 0;
     }
 
     /**
@@ -62,71 +73,83 @@ public class Gene {
      *
      */
     public void printGenes() {
-        System.out.println("Gene Length " + this.getGeneLength());
+      
 
-        for (int i = 0; i < this.getGeneLength(); i++) {
+       
 
-            // geneSolution[i].printGeneSolution();
-        }
-
-        System.out.println();
+      
     }
 
     /**
      *
-     * @param job
+     * @param jobs
      * @param i
      */
-    public void setGeneSolution(Job job[], int i) {
+    public void setGeneSolution(Job jobs[], int i) {
 
         // Create random class object
         geneSolution = new GeneSolution[geneLength];
 
         Random r = new Random();
 
-        for (int j = 0; j < job[i].getTotalOperations(); j++) {
-            List<AlternativeSolutions> possol = job[i].getOperations()[j].getPossol();
+        for (int j = 0; j < jobs[i].getTotalOperationCount(); j++) {
 
-            // System.out.println(possol.size());
+            List<AlternativeSolutions> possol = jobs[i].getOperations()[j].getPossol();
 
-            geneSolution[j] = new GeneSolution(possol.get(r.nextInt(9999) % possol.size()).MachineID,
-                                               possol.get(r.nextInt(9999) % possol.size()).time);
+            int random = r.nextInt(9999) % possol.size();
+            geneSolution[j] = new GeneSolution(possol.get(random).MachineID, possol.get(random).time);
         }
     }
 
-    // New method using integer array in place of string array
+    public static void setL(int l) {
+        Gene.l = l;
+    }
 
+    public void setMakeSpan(int makeSpan) {
+        this.makeSpan = makeSpan;
+    }
+
+    public void setOptimalMakespan(int optimalMakespan) {
+        this.optimalMakespan = optimalMakespan;
+    }
+
+    public void setThreshold(int threshold) {
+        this.threshold = threshold;
+    }
+
+    // New method using integer array in place of string array
     /**
      *
      * @param Machine
      * @param Time
      * @param ChromLength
      */
+    
+
     public void setGeneSolution(int[] Machine, int[] Time, int ChromLength) {
         for (int i = 0; i < this.getGeneLength(); i++) {
-            geneSolution[i].setMachineID(Machine[l]);
-            geneSolution[i].setTime(Time[l]);
+            this.geneSolution[i].setMachineID(Machine[l]);
+            this.geneSolution[i].setTime(Time[l]);
             l = (l + 1) % ChromLength;
         }
     }
 
-    // Not required !
-
+   
     /**
      *
      * @param Machine
      * @param Time
      */
-    public void setGeneSolution(String Machine, String Time) {
-        geneSolution = new GeneSolution[geneLength];
-
-        for (int i = 0; i < geneLength; i++) {
-            geneSolution[i] = new GeneSolution(Integer.parseInt(Machine.charAt(l) + ""),
-                                               Integer.parseInt(Time.charAt(l) + ""));
-            l = (l + 1) % 36;
+    public void setGeneSolution(GeneSolution origGeneSolution[])
+    {
+        this.geneSolution = new GeneSolution[geneLength];
+        for(int i =0; i<geneLength; i++)
+        {
+            this.geneSolution[i] = new GeneSolution(origGeneSolution[i].getMachineID(),origGeneSolution[i].getTime());
         }
     }
+
+
 }
-
-
 //~ Formatted by Jindent --- http://www.jindent.com
+

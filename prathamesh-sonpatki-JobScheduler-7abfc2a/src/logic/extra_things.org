@@ -5,3 +5,4 @@
 * TODO Add cumulative fitness value to Gene Class
 * TODO Add Total Fitness value (Sum of Fitness value of all genes) to 
   Chromosome class
+

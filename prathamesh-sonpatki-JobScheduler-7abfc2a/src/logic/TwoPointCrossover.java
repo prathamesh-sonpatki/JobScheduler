@@ -8,6 +8,7 @@ package logic;
  */
 import java.util.Random;
 
+
 /**
  *
  * @author Pawan
@@ -21,30 +22,40 @@ public class TwoPointCrossover implements CrossOverScheme {
      */
     public void performCrossover(Chromosome chromosome1, Chromosome chromosome2) {
         Random random          = new Random();
-        int    crossoverPoint1 = random.nextInt(chromosome1.ChromosomeLength);
-        int    crossoverPoint2 = random.nextInt(chromosome1.ChromosomeLength);
-
-        if (crossoverPoint1 > crossoverPoint2) {
-            int temp = crossoverPoint1;
-
+       
+        int    crossoverPoint1 = random.nextInt(chromosome1.getChromosomeLength());
+        int    crossoverPoint2 = random.nextInt(chromosome2.getChromosomeLength());
+       
+        int temp;
+        if (crossoverPoint1 > crossoverPoint2)
+        {
+           temp = crossoverPoint1;
             crossoverPoint1 = crossoverPoint2;
             crossoverPoint2 = temp;
         }
-
-        for (int i = crossoverPoint1; i <= crossoverPoint2; i++) {
-            int temp;
-
-            temp                               = chromosome1.ChromeMachineString[i];
-            chromosome1.ChromeMachineString[i] = chromosome2.ChromeMachineString[i];
-            chromosome2.ChromeMachineString[i] = temp;
-            temp                               = chromosome1.ChromeTimeString[i];
-            chromosome1.ChromeTimeString[i]    = chromosome2.ChromeTimeString[i];
-            chromosome2.ChromeTimeString[i]    = temp;
+        if(crossoverPoint1!=0)
+            crossoverPoint1--;
+          if(crossoverPoint2!=0)
+        crossoverPoint2--;
+       // System.out.println(crossoverPoint1 + "  "+crossoverPoint2);
+        for (int i = crossoverPoint1; i <= crossoverPoint2; i++)
+        {
+            // System.out.println(chromosome1.getChromeTimeString()[i]+"  "+chromosome2.getChromeTimeString()[i]);
+            temp= chromosome1.getChromeMachineString()[i];
+            chromosome1.getChromeMachineString()[i] = chromosome2.getChromeMachineString()[i];
+            chromosome2.getChromeMachineString()[i] = temp;
+            temp = chromosome1.getChromeTimeString()[i];
+            chromosome1.getChromeTimeString()[i]    = chromosome2.getChromeTimeString()[i];
+            chromosome2.getChromeTimeString()[i]    = temp;
         }
-
-        chromosome1.StringToChromosome(chromosome1.ChromeMachine, chromosome1.ChromeTime, chromosome1.GeneCount);
-        chromosome2.StringToChromosome(chromosome2.ChromeMachine, chromosome2.ChromeTime, chromosome2.GeneCount);
+       
+        
+        chromosome1.integerStringToChromosome();
+        chromosome2.integerStringToChromosome();
+        
     }
+
+   
 }
 
 

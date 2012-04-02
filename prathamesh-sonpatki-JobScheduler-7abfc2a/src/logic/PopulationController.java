@@ -1,41 +1,27 @@
 package logic;
 
-/*
-*
- */
-
 /**
  *
  * @author chaitanya
  */
 public class PopulationController {
+
     Population population;
 
-    /**
-     *
+    /*
+     * Initialize the data member of the PopulationController object
      */
     public PopulationController() {
         population = null;
     }
 
-    /**
-     *
-     * @return
-     */
     public Population getPopulation() {
         return population;
     }
 
-    /**
-     *
-     * @param job
-     */
-    public void GetPopulationDetails(Job[] job) {
+    public void setPopulationDetails(Job[] jobs) {
         population = new Population();
         population.setPopulationSize(jobScheduler.populationSize);
-        population.setChromosomes(job);
+        population.setChromosomes(jobs);
     }
 }
-
-
-//~ Formatted by Jindent --- http://www.jindent.com

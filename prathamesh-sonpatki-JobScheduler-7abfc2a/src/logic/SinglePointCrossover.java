@@ -19,7 +19,7 @@ public class SinglePointCrossover extends Configuration implements CrossOverSche
     public void performCrossover(Chromosome chromosome1, Chromosome chromosome2) {
         int crossoverPoint = randomNumberGenerator.nextInt();
 
-        for (int i = crossoverPoint; i < chromosome1.ChromosomeLength; i++) {
+        for (int i = crossoverPoint; i < chromosome1.chromosomeLength; i++) {
             int temp;
 
             // temp = chromosome1.ChromeMachine[i];
@@ -31,8 +31,8 @@ public class SinglePointCrossover extends Configuration implements CrossOverSche
             // chromosome2.ChromeTime[i] = temp;
         }
 
-        chromosome1.StringToChromosome(chromosome1.ChromeMachine, chromosome1.ChromeTime, chromosome1.GeneCount);
-        chromosome2.StringToChromosome(chromosome2.ChromeMachine, chromosome2.ChromeTime, chromosome2.GeneCount);
+        chromosome1.integerStringToChromosome();
+        chromosome2.integerStringToChromosome();
     }
 }
 

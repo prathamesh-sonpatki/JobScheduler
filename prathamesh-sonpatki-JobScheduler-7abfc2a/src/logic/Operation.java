@@ -16,12 +16,13 @@ import java.util.Scanner;
  * @author prathamesh
  */
 public class Operation {
+
     int                        OperationID;
-    int                        alternatives;
-    List<AlternativeSolutions> possol;
+    int                        alternativeCount;
+    List<AlternativeSolutions> possol;//stores the alternative solutions
 
     Operation() {
-        alternatives = 0;
+        alternativeCount = 0;
         possol       = null;
     }
 
@@ -53,26 +54,29 @@ public class Operation {
      *
      * @return
      */
-    public int getAlternatives() {
-        return alternatives;
+    public int getAlternativeCount() {
+        return alternativeCount;
     }
 
     /**
      *
-     * @param alternatives
+     * @param alternativeCount
      */
-    public void setAlternatives(int alternatives) {
-        this.alternatives = alternatives;
+    public void setAlternativeCount(int alternatives) {
+        this.alternativeCount = alternatives;
     }
 
     /**
-     *
+     * store the available machines and the corresponding time taken by Operation object
+     * to Alternative Solutions
      * @param s
      */
     public void setAlternativeSolution(Scanner s) {
+
         possol = new ArrayList<AlternativeSolutions>();
 
-        for (int i = 1; i <= this.getAlternatives() * 2; i = i + 2) {
+        //TO DO : why???
+        for (int i = 1; i <= this.getAlternativeCount() * 2; i = i + 2) {
             int     a   = s.nextInt();
             int     b   = s.nextInt();
             boolean add = possol.add(new AlternativeSolutions(a, b));

@@ -1,67 +1,64 @@
 package logic;
 
 //~--- JDK imports ------------------------------------------------------------
-
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.util.Scanner;
 
-/*
-* This class is used for getting input in proper format from user.
-*
- */
-
 /**
- *
+ * This class is used for getting input in proper format from user.
  * @author chaitanya
  */
 public class InputController {
-    private int TotalJobs;
+
+    private int totalJobCount;
+    public Job[] jobs;
 
     /**
-     *
+     * @return the array of Job object
      */
-    public Job[] job;
-
-    /**
-     *
-     * @return
-     */
-    public Job[] getJob() {
-        return job;
+    public Job[] getJobs() {
+        return jobs;
     }
 
-//  Get the number of jobs from user
-
     /**
-     *
+     * Get the data from the file "input.txt" about
+     * the total jobs and the available machines and corresponding time
+     * and create the Job object
      * @throws FileNotFoundException
      */
-    public void GetInput() throws FileNotFoundException {
-        File    inputFile    = new File("input.txt");
+    public void getInput() throws FileNotFoundException {
+
+        File inputFile = new File("input.txt");
         Scanner inputScanner = new Scanner(inputFile);
 
-        TotalJobs = inputScanner.nextInt();
-        job       = new Job[TotalJobs];
+        totalJobCount = inputScanner.nextInt();
+        jobs = new Job[totalJobCount];
 
-        // For each job Get Operation Details
-        for (int i = 0; i < TotalJobs; i++) {
-            job[i] = new Job();
+        /**
+         *  For each jobs Get Operation Details
+         */
+        for (int i = 0; i < totalJobCount; i++) {
+            jobs[i] = new Job();
 
-            // Set Job ID
-            job[i].setJobID(i);
+            /**
+             * Set Job ID
+             */
+            jobs[i].setJobID(i);
 
-            // Number of Operations in a Job
-            job[i].setTotalOperations(6);
+            /**
+             * Number of Operations in a Job
+             */
+            jobs[i].setTotalOperationCount(6);//TO DO operation in each jobs may be different
+            //TODO static value = 6
 
-            // Get details of each job
-            inputScanner = job[i].GetOperation(inputScanner);
+            /*
+             * Get details of each jobs
+             */
+            inputScanner = jobs[i].setOperations(inputScanner);
 
-            // job.printJobDetails();
         }
     }
 }
-
-
 //~ Formatted by Jindent --- http://www.jindent.com
+

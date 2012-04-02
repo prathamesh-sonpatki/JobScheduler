@@ -1,87 +1,141 @@
 package logic;
 
-/*
-* Chromosome Class :: Represents chromosome
-* Each chromosome will have Genes (Set of Jobs)
-* A chromosome is part of population
- */
+import org.jscience.mathematics.number.Real;
 
+/*
+ * Chromosome Class :: Represents chromosome
+ * Each chromosome will have Genes (Set of Jobs)
+ * A chromosome is part of population
+ */
 /**
  *
  * @author chaitanya
  */
 public class Chromosome {
-    String ChromeMachine, ChromeTime;
-    int    ChromeMachineString[];
-    int    ChromeTimeString[];
-    int    ChromosomeLength;
-    int    GeneCount;
-    double fitnessValue;
+
+    int chromeMachineString[];
+    int chromeTimeString[];
+    int chromosomeLength;
+    int geneCount;
+    Gene genes[];
+    Real fitnessValue;
     int totalMakeSpan;
-    Gene   genes[];
+    Real weightInRouletteWheel;
+    Real cumulativeRouletteWeight;
+   
+    int selectedCount;
 
     /**
-     *
+     * to initialize machine String
+     * @param ChromeMachineString
+     */
+    public void setChromeMachineString(int[] ChromeMachineString) {
+        this.chromeMachineString = new int[ChromeMachineString.length];
+        System.arraycopy(ChromeMachineString, 0, this.chromeMachineString, 0, ChromeMachineString.length);
+    }
+
+    /**
+     * copying the parameterized Gene object to the local Gene object
+     * @param origGenes
+     */
+    public void setGenes(Gene[] origGenes) {
+        int index = 0;
+        this.genes = new Gene[this.getGeneCount()];
+        for (index = 0; index < this.getGeneCount(); index++) {
+            this.genes[index] = new Gene();
+            this.genes[index].setGeneLength(origGenes[index].getGeneLength());
+
+            this.genes[index].setGeneSolution(origGenes[index].getGeneSolution());
+
+
+        }
+    }
+
+    public Real getWeightInRouletteWheel() {
+        return weightInRouletteWheel;
+    }
+
+    public Real getCumulativeRouletteWeight() {
+        return cumulativeRouletteWeight;
+    }
+
+    public void setCumulativeRouletteWeight(Real cumulativeRouletteWeight) {
+        this.cumulativeRouletteWeight = cumulativeRouletteWeight;
+    }
+
+    public int getSelectedCount() {
+        return selectedCount;
+    }
+
+    public void setSelectedCount(int selectedCount) {
+        this.selectedCount = selectedCount;
+    }
+
+    public void setWeightInRouletteWheel(Real weightInRouletteWheel) {
+        this.weightInRouletteWheel = weightInRouletteWheel;
+    }
+
+    public void setChromeTimeString(int[] ChromeTimeString) {
+         this.chromeTimeString = new int[ChromeTimeString.length];
+        System.arraycopy(ChromeTimeString, 0, this.chromeTimeString, 0, ChromeTimeString.length);
+    }
+
+    public void setFitnessValue(Real fitnessValue) {
+        this.fitnessValue = fitnessValue;
+    }
+
+    public int getTotalMakeSpan() {
+        return totalMakeSpan;
+    }
+
+    public void setTotalMakeSpan(int totalMakeSpan) {
+        this.totalMakeSpan = totalMakeSpan;
+    }
+
+    /**
+     * Initialize the chromosome
      */
     public Chromosome() {
-        ChromosomeLength = 0;
-        GeneCount        = 0;
-        genes            = null;
-        ChromeMachine    = "";
-        ChromeTime       = "";
+        chromosomeLength = 0;
+        geneCount = 0;
+        genes = null;
+
+       
+    }
+
+    /**
+     * Calculate the fitness value of Chromosome object
+     */
+    public void calculateFitnessValue() {
+         Real.setExactPrecision(20);
+
+        Real max = Real.ZERO;
+        for (int i = 0; i < this.getGeneCount(); i++) {
+            max = max.plus(Real.valueOf(Math.abs(this.getGenes()[i].getMakeSpan() - this.getGenes()[i].getOptimalMakespan())));
+        }
+
+        this.setFitnessValue(Real.ONE.divide(max));
+
+         
+
+
     }
 
   
 
-
-
-    /*
-     *  public int getFitnessValue()
-     * {
-     *    int tempFitnessValue = 0;
-     *    int count =0;
-     *    for(int geneIndex = 0;geneIndex < this.GeneCount;geneIndex++)
-     *    {
-     *        int maxOperation = this.genes[geneIndex].geneLength;
-     *        int minEndTime = this.genes[geneIndex].optimalEndTime;
-     *        int currentEndTime = this.genes[geneIndex].geneSolution[maxOperation -1].endTime;
-     *        int threshold = this.genes[geneIndex].threshold;
-     *
-     *        if(minEndTime > currentEndTime)
-     *        {
-     *            this.genes[geneIndex].nextOptimalEndTime = currentEndTime;
-     *        }
-     *
-     *        tempFitnessValue += Math.abs(currentEndTime - minEndTime);
-     *
-     *        if(tempFitnessValue <= threshold)
-     *        {
-     *            count++;
-     *        }
-     *    }
-     *    this.fitnessValue = 1 / (double)tempFitnessValue;
-     *    if(count == this.GeneCount)
-     *    {
-     *        return 0;//found NE point of game
-     *    }
-     *    return 1;//continue with generations
-     * }
-     */
-
     /**
-     *
-     * @param ChromosomeLength
+     * @param chromosomeLength
      */
     public void setChromosomeLength(int ChromosomeLength) {
-        this.ChromosomeLength = ChromosomeLength;
+        this.chromosomeLength = ChromosomeLength;
     }
 
     /**
      *
-     * @param GeneCount
+     * @param geneCount
      */
     public void setGeneCount(int GeneCount) {
-        this.GeneCount = GeneCount;
+        this.geneCount = GeneCount;
     }
 
     /**
@@ -89,7 +143,7 @@ public class Chromosome {
      * @return
      */
     public int getChromosomeLength() {
-        return ChromosomeLength;
+        return chromosomeLength;
     }
 
     /**
@@ -97,11 +151,11 @@ public class Chromosome {
      * @return
      */
     public int getGeneCount() {
-        return GeneCount;
+        return geneCount;
     }
 
     /**
-     *
+     * prints the chromosome details
      */
     public void printChromosome() {
         System.out.println("Chromosome Length = " + this.getChromosomeLength());
@@ -111,56 +165,35 @@ public class Chromosome {
             System.out.println("Gene[" + i + "]:");
             genes[i].printGenes();
         }
+
     }
 
     /**
      *
-     * @param job
+     * @param jobs
      */
-    public void setGenes(Job[] job) {
+    public void setGenes(Job[] jobs) {
+
         genes = new Gene[this.getGeneCount()];
 
         for (int i = 0; i < this.getGeneCount(); i++) {
             genes[i] = new Gene();
-            genes[i].setGeneLength(job[i].getTotalOperations());
-            genes[i].setGeneSolution(job, i);
+            genes[i].setGeneLength(jobs[i].getTotalOperationCount());
+            genes[i].setGeneSolution(jobs, i);
         }
     }
 
-    // This method no longer required..
-    // To be deleted after Pawan sees it!
-
     /**
-     *
+     * Converts the chromosome object to the interger array
      */
-    public void ChromosomeToString() {
-        ChromeMachine = "";
-        ChromeTime    = "";
-
-        for (int i = 0; i < GeneCount; i++) {
-            for (int j = 0; j < genes[i].geneLength; j++) {
-                ChromeMachine += genes[i].getGeneSolution()[j].MachineID;
-                ChromeTime    += genes[i].getGeneSolution()[j].time;
-            }
-        }
-    }
-
-    // Adding a new function to change Chromosome string to string of integers
-    // Because a character string may cause problems with 2 digit numbers like
-    // 12 .
-    // So converting ChromeMachine and ChromeTime to integer array
-
-    /**
-     *
-     */
-    public void ChromosomeToIntegerString() {
-        ChromeMachineString = new int[this.getChromosomeLength()];
-        ChromeTimeString    = new int[this.getChromosomeLength()];
+    public void chromosomeToIntegerString() {
+        chromeMachineString = new int[this.getChromosomeLength()];
+        chromeTimeString = new int[this.getChromosomeLength()];
 
         for (int i = 0; i < this.getGeneCount(); i++) {
             for (int j = 0; j < this.genes[i].geneLength; j++) {
-                ChromeMachineString[i * this.getGeneCount() + j] = genes[i].getGeneSolution()[j].MachineID;
-                ChromeTimeString[i * this.getGeneCount() + j]    = genes[i].getGeneSolution()[j].time;
+                chromeMachineString[i * this.getGeneCount() + j] = genes[i].getGeneSolution()[j].machineID;
+                chromeTimeString[i * this.getGeneCount() + j] = genes[i].getGeneSolution()[j].time;
             }
         }
     }
@@ -168,33 +201,23 @@ public class Chromosome {
     void printChromeIntegerString() {
         for (int i = 0; i < this.getChromosomeLength(); i++) {
 
-            // Replace ChromeTimeString with ChromeMachineString to print it..
-            System.out.print(ChromeTimeString[i] + " ");
+            // Replace chromeTimeString with chromeMachineString to print it..
+            System.out.print(chromeTimeString[i] + " ");
         }
 
         System.out.println();
     }
 
-    // Adding a new function to change Chromosome string to string of integers
-    // Because a character string may cause problems with 2 digit numbers like
-    // 12 .
-    // So converting ChromeMachine and ChromeTime to integer array
+    public void integerStringToChromosome() {
+        this.setChromeMachineString(this.getChromeMachineString());
+        this.setChromeTimeString(this.getChromeTimeString());
+        this.setGeneCount(this.getGeneCount());
+        this.setGenes(this.getChromeMachineString(), this.getChromeTimeString());
 
-    /**
-     *
-     * @param Machines
-     * @param Times
-     */
-    public void StringToChromosome(int[] Machines, int[] Times) {
-        this.setGenes(Machines, Times);
     }
 
-    /**
-     *
-     * @return
-     */
     public int[] getChromeMachineString() {
-        return ChromeMachineString;
+        return chromeMachineString;
     }
 
     /**
@@ -202,14 +225,14 @@ public class Chromosome {
      * @return
      */
     public int[] getChromeTimeString() {
-        return ChromeTimeString;
+        return chromeTimeString;
     }
 
     /**
      *
      * @return
      */
-    public double getFitnessValue() {
+    public Real getFitnessValue() {
         return fitnessValue;
     }
 
@@ -221,25 +244,6 @@ public class Chromosome {
         return genes;
     }
 
-//  No longer required !
-
-    /**
-     *
-     * @param Machines
-     * @param Time
-     * @param NumberOfGenes
-     * @return
-     */
-    public Chromosome StringToChromosome(String Machines, String Time, int NumberOfGenes) {
-        Chromosome chromosome = new Chromosome();
-
-        chromosome.setChromosomeLength(Machines.length());
-        chromosome.setGeneCount(NumberOfGenes);
-        chromosome.setGenes(Machines, Time);
-
-        return chromosome;
-    }
-
     /**
      *
      * @param Machines
@@ -247,29 +251,11 @@ public class Chromosome {
      */
     public void setGenes(int[] Machines, int[] Time) {
         for (int i = 0; i < this.getGeneCount(); i++) {
+            //   genes[i].setL(0);
             genes[i].setGeneSolution(Machines, Time, this.getChromosomeLength());
-            genes[i].printGenes();
-        }
-    }
 
-    // Not required !
-
-    /**
-     *
-     * @param Machines
-     * @param Time
-     */
-    public void setGenes(String Machines, String Time) {
-        genes = new Gene[this.getGeneCount()];
-
-        for (int i = 0; i < GeneCount; i++) {
-            genes[i] = new Gene();
-            genes[i].setGeneLength(ChromosomeLength / GeneCount);
-            genes[i].setGeneSolution(Machines, Time);
-            genes[i].printGenes();
         }
     }
 }
 
 
-//~ Formatted by Jindent --- http://www.jindent.com

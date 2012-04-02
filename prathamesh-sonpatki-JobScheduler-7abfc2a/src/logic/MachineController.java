@@ -1,23 +1,28 @@
 package logic;
 
-/*
-* MachineController ; This class will create required Machines for operations
- */
-
 /**
- *
+ * This class will create required Machines for operations
  * @author chaitanya
  */
 public class MachineController {
-    int       TotalMachines;
+
+    static final int[][] transportTime = {
+        {0, 1, 2, 1, 2, 2},
+        {1, 0, 1, 2, 2, 1},
+        {2, 1, 0, 2, 1, 2},
+        {1, 2, 2, 0, 1, 1},
+        {2, 2, 1, 1, 0, 2},
+        {2, 1, 2, 1, 2, 0}
+    };
+    int totalMachineCount;
     Machine[] machines;
 
     /**
      *
      * @return
      */
-    public int getTotalMachines() {
-        return TotalMachines;
+    public int getTotalMachineCount() {
+        return totalMachineCount;
     }
 
     /**
@@ -30,34 +35,34 @@ public class MachineController {
 
     /**
      *
-     * @param TotalMachines
+     * @param totalMachineCount
      */
-    public void setTotalMachines(int TotalMachines) {
-        this.TotalMachines = TotalMachines;
+    public void setTotalMachineCount(int totalMachineCount) {
+        this.totalMachineCount = totalMachineCount;
     }
 
     // Creates new Machines
-
     /**
-     *
+     * create Machine objects
      */
     public void setMachines() {
-        this.machines = new Machine[this.getTotalMachines()];
 
-        for (int i = 0; i < this.getTotalMachines(); i++) {
+        this.machines = new Machine[this.getTotalMachineCount()];
+
+        for (int i = 0; i < this.getTotalMachineCount(); i++) {
             this.machines[i] = new Machine(i);
+            this.getMachines()[i].setTransportTime(transportTime[i]);
         }
     }
 
     // Method for getting machine by Machine ID
-
     /**
      *
      * @param MachineID
      * @return
      */
     public Machine getMachine(int MachineID) {
-        for (int i = 0; i < this.getTotalMachines(); i++) {
+        for (int i = 0; i < this.getTotalMachineCount(); i++) {
             if (this.getMachines()[i].getMachineID() == MachineID) {
                 return this.getMachines()[i];
             }
@@ -65,7 +70,33 @@ public class MachineController {
 
         return null;
     }
+
+    /**
+     * assigns totalOperationCount for each machines
+     * @param population
+     */
+    void assignOperationCount(Population population) {
+
+        int populationSize = population.getPopulationSize();
+        int chromosomeLength = population.getChromosomes()[0].getChromosomeLength();
+
+        for (int i = 0; i < populationSize; i++) {
+            for (int j = 0; j < chromosomeLength; j++) {
+                int machineID = population.getChromosomes()[i].getChromeMachineString()[j];
+
+                this.getMachines()[machineID].increaseTotalPossibleOperstionCount();
+            }
+
+        }
+    }
+
+    void clearMachines() {
+        for (int i = 0; i < totalMachineCount; i++) {
+            for (int k = 0; k < this.getTotalMachineCount(); k++) {
+                this.getMachines()[k].clearTotalOperation();
+            }    
+        }
+    }
 }
-
-
 //~ Formatted by Jindent --- http://www.jindent.com
+
